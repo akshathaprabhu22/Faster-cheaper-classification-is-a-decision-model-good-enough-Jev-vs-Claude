@@ -51,7 +51,7 @@ flowchart TD
     E --> F[Read saved results]
     C -- no --> F
     F --> G[Scorecard and chart]
-    F --> H[Production checks]
+    F --> H[Real-world checks]
     F --> I[Disagreements]
     F --> J[Takeaways generated from the numbers]
 ```
@@ -101,12 +101,12 @@ jev-vs-claude/
 └── LICENSE
 ```
 
-## Not tested here, but needed before production
+## Not tested here, but needed before real-world use
 
 - **Drift:** writing styles change and providers update their models. Re-label a small random sample regularly.
 - **Explainability:** Jev can't say why it chose a label; Claude can. This matters for disputes and audits.
 - **Data privacy:** real requirements may be confidential. Check retention, contracts and processing location before using an outside API.
-- **Load:** this measured one call at a time. Production traffic brings rate limits and bursts.
+- **Load:** this measured one call at a time. Real traffic brings rate limits and bursts.
 - **Cost of a wrong label:** what a mislabel actually breaks sets the accuracy target.
 
 ## Limitations
