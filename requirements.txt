@@ -1,0 +1,7 @@
+# Python 3.10 or newer
+typesafe-sdk
+anthropic
+datasets
+pandas
+matplotlib
+jupyter

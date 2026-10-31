@@ -1,0 +1,11 @@
+# Secrets: never commit API keys
+.env
+*.env
+
+# Python and Jupyter clutter
+__pycache__/
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Results in results/ are committed on purpose, so others can reproduce the analysis

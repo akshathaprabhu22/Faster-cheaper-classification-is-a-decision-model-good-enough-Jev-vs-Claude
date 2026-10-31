@@ -1,0 +1,37 @@
+id,requirement,label,category,domain
+1,As a store manager I want to see which online orders are ready for pickup so I can hand them over faster. Should work on the counter tablet too.,functional,feature,retail
+2,Users need to b able to reset there password from the login screen via an email link. (copy TBD w/ legal),functional,feature,fintech
+3,Per the Q3 roadmap: drivers can flag a damaged package + attach up to 3 photos. Ops wants this surfaced in the daily report.,functional,feature,logistics
+4,Add ability for HR admins to bulk-import new hires from a CSV. Validation errors should show row by row so they can fix and re-upload.,functional,feature,hr
+5,"When a flight gets cancelled, automatically offer the traveler the next 3 available flights on the same route and let them rebook in one tap.",functional,feature,travel
+6,"Teachers want to duplicate last semester's course (assignments, rubrics, schedule) into a new term instead of rebuilding it from scratch.",functional,feature,edtech
+7,Need SSO login w/ Okta for enterprise customers. Users who come in via SSO shouldn't see the password reset option.,functional,feature,hr
+8,"If a thermostat goes offline for >2 hrs, notify the homeowner by push + email. Don't spam them - one alert per outage.",functional,feature,iot
+9,PM note: viewers keep asking for a 'skip intro' button. Show it during the intro of any episode that has one marked.,functional,feature,media
+10,"Finance needs a monthly export of all refunds (amount, reason code, agent) in xlsx.",functional,feature,retail
+11,Customers should be able to pause their subscription for 1-3 months instead of cancelling. Billing resumes automatically after.,functional,feature,media
+12,"Allow warehouse leads to reassign a pick list from one picker to another mid-shift, e.g. if someone goes on break.",functional,feature,logistics
+13,Support agents: add an internal-notes field on each ticket that customers can't see.,functional,feature,retail
+14,Parents get a weekly email digest w/ their kid's grades + missing assignments. Opt-out in settings.,functional,feature,edtech
+15,"Search bar should autocomplete product names after the user types 3 characters, and show recent searches when it's empty.",functional,feature,retail
+16,"Hosts can set a min-nights rule per season (e.g. 3 nights in summer, 1 otherwise).",functional,feature,travel
+17,Mgrs need a dashboard of team PTO for the next 30 days so they can spot coverage gaps.,functional,feature,hr
+18,Let users delete their account themselves from the settings page rather than emailing support.,functional,feature,fintech
+19,App is way too slow on older Androids - checkout takes like 8-10s. Needs to be under 3s on a mid-range phone from 2 yrs ago.,non_functional,performance,retail
+20,Security team flagged that we're logging full card numbers in the payment service logs. This must never happen; mask everything except the last 4.,non_functional,security,fintech
+21,We can't have another Black Friday outage. Site needs to stay up at 20x normal traffic.,non_functional,scalability,retail
+22,"Legal says all EU customer data has to stay in EU data centers. No exceptions, including backups.",non_functional,compliance,hr
+23,The new dashboard is confusing - users can't figure out where the export button is. Make it obvious without training.,non_functional,usability,fintech
+24,Eng ask: split the payments service out so we can deploy it w/o redeploying the whole monolith.,non_functional,maintainability,fintech
+25,"Brand team wants the app to match the new design system (colors, fonts, spacing) everywhere by launch.",non_functional,look_and_feel,media
+26,Driver app has to keep working in dead zones on rural routes and sync once back online. Losing a delivery record is not acceptable.,non_functional,reliability,logistics
+27,Accessibility audit failed on contrast + screen readers. Fix so we pass WCAG AA before the school district contract renews.,non_functional,usability,edtech
+28,Pages load fine in the US but APAC users see 6s+ load times. Target <2s globally.,non_functional,performance,travel
+29,"Only managers should ever see salary fields, and every view of them needs to be logged for audit.",non_functional,security,hr
+30,"Video should start playing within 2 seconds of hitting play, even on 4G.",non_functional,performance,media
+31,Smart lock firmware must keep receiving OTA updates for at least 7 yrs on the current hardware.,non_functional,portability,iot
+32,We keep getting duplicate charges when people double-tap Pay. That should be impossible.,non_functional,reliability,fintech
+33,Error msgs are full of codes like ERR_4021 and customers have no idea what to do. Rewrite in plain english w/ a next step.,non_functional,usability,retail
+34,Infra: system should autoscale so we're not paying for 40 servers at 3am.,non_functional,scalability,media
+35,"Need SOC 2 Type II before enterprise deals close - audit logging, access reviews, the works.",non_functional,compliance,hr
+36,"Should run on Chrome, Safari, Edge, and the in-car browser our fleet tablets use.",non_functional,portability,logistics
