@@ -17,7 +17,7 @@ Human-labeled software requirements from [`limsc/fr-nfr-classification`](https:/
 
 | Set | Size | Source | Purpose |
 |---|---|---|---|
-| Development | 143 | Hugging Face validation split | Used to refine prompts and select the review threshold |
+| Validation | 143 | Hugging Face validation split | Used to refine prompts and select the review threshold |
 | Test | 144 | Hugging Face test split | Held out and used only for the final evaluation |
 | Messy | 36 | [`data/messy_requirements.csv`](data/messy_requirements.csv) | Multi-sentence requirements with typos, jargon and less structured wording |
 
@@ -46,14 +46,14 @@ _To be added after the final run._
 flowchart TD
     HF["Hugging Face dataset<br/>limsc/fr-nfr-classification<br/>human-labeled software requirements"]
     HF --> TRAIN["Train: 669<br/>not used, since neither model is trained"]
-    HF --> DEV["Dev (validation split): 143<br/>tune the definitions, pick the review cutoff"]
+    HF --> DEV["Validation: 143<br/>tune the definitions, pick the review cutoff"]
     HF --> TEST["Test: 144<br/>held out, scored once at the end"]
     MESSY["Messy: 36<br/>data/messy_requirements.csv<br/>typos, jargon, multi-sentence"]
 
     DEV --> STAGE{"Which stage?"}
     TEST --> STAGE
     MESSY --> STAGE
-    STAGE -- "tune: 10-row sample of dev, 1 run" --> CALL
+    STAGE -- "tune: 10-row sample of validation, 1 run" --> CALL
     STAGE -- "final: all 323 rows, 3 runs each" --> CALL
 
     CALL["Send each requirement to both models<br/>with identical definitions"]
@@ -65,7 +65,7 @@ flowchart TD
     CSV --> SCORE["Scorecard on test<br/>accuracy, precision, recall,<br/>speed, cost per month"]
     CSV --> C1["Check 1: messy inputs<br/>does accuracy hold up?"]
     CSV --> C2["Check 2: stability<br/>same answer all 3 runs?"]
-    CSV --> C3["Check 3: human review<br/>cutoff picked on dev,<br/>tested on test + messy"]
+    CSV --> C3["Check 3: human review<br/>cutoff picked on validation,<br/>tested on test + messy"]
     CSV --> DIS["Where the models disagree<br/>who got it right"]
     SCORE --> TAKE["Takeaways<br/>generated from the numbers"]
     C1 --> TAKE
@@ -78,7 +78,7 @@ Results are cached in `results/`, so rerunning the notebook only calls the APIs 
 
 ## Methodology notes
 
-- **Tune on development, score on test.** Prompt wording and the human-review threshold are chosen on the development set only. The test set is run once, after the wording is final.
+- **Tune on validation, score on test.** Prompt wording and the human-review threshold are chosen on the validation set only. The test set is run once, after the wording is final.
 - **Paired comparison.** Metrics use only requirements that both models answered, so neither gets an easier set.
 - **Significance.** An exact McNemar test checks whether the accuracy gap could be chance, given how few requirements the models disagree on.
 - **Confidence is not certainty.** Jev's confidence score shows how concentrated its answer is, not a guaranteed probability of being correct. That's why the review threshold is validated on data it wasn't chosen on.
@@ -102,8 +102,8 @@ Set them as environment variables (`TYPESAFE_API_KEY`, `ANTHROPIC_API_KEY`), or 
 
 Open `jev_vs_claude.ipynb` and:
 
-1. Keep `STAGE = "tune"` to run the development set. Review the mistakes, adjust the definitions if needed, and rerun as often as you like.
-2. Set `STAGE = "final"` and `LIMIT = None`, then run once. This runs development, test and messy sets, three times each.
+1. Keep `STAGE = "tune"` to run the validation set. Review the mistakes, adjust the definitions if needed, and rerun as often as you like.
+2. Set `STAGE = "final"` and `LIMIT = None`, then run once. This runs validation, test and messy sets, three times each.
 
 `CLAUDE_MODEL` can be switched between `claude-opus-5-5` and `claude-haiku-5-5`. Each model's results are saved to their own file.
 
