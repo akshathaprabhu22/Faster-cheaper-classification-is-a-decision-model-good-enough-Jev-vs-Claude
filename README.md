@@ -51,7 +51,7 @@ flowchart TD
     E --> F[Read saved results]
     C -- no --> F
     F --> G[Scorecard and chart]
-    F --> H[Real-world checks]
+    F --> H[Checks: messy inputs,<br/>stability, human review]
     F --> I[Disagreements]
     F --> J[Takeaways generated from the numbers]
 ```
