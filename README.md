@@ -44,16 +44,34 @@ _To be added after the final run._
 
 ```mermaid
 flowchart TD
-    A[Settings] --> B[Load requirements and any saved results]
-    B --> C{Rows still missing?}
-    C -- yes --> D[Call Jev and Claude<br/>same row, same definitions]
-    D --> E[Save to results CSV<br/>failures logged, not dropped]
-    E --> F[Read saved results]
-    C -- no --> F
-    F --> G[Scorecard and chart]
-    F --> H[Checks: messy inputs,<br/>stability, human review]
-    F --> I[Disagreements]
-    F --> J[Takeaways generated from the numbers]
+    HF["Hugging Face dataset<br/>limsc/fr-nfr-classification<br/>human-labeled software requirements"]
+    HF --> TRAIN["Train: 669<br/>not used, since neither model is trained"]
+    HF --> DEV["Dev (validation split): 143<br/>tune the definitions, pick the review cutoff"]
+    HF --> TEST["Test: 144<br/>held out, scored once at the end"]
+    MESSY["Messy: 36<br/>data/messy_requirements.csv<br/>typos, jargon, multi-sentence"]
+
+    DEV --> STAGE{"Which stage?"}
+    TEST --> STAGE
+    MESSY --> STAGE
+    STAGE -- "tune: 10-row sample of dev, 1 run" --> CALL
+    STAGE -- "final: all 323 rows, 3 runs each" --> CALL
+
+    CALL["Send each requirement to both models<br/>with identical definitions"]
+    CALL --> JEV["Jev (TypeSafe)<br/>label + confidence score"]
+    CALL --> CLAUDE["Claude (Opus 5.5 or Haiku 5.5)<br/>label + one-line reason"]
+    JEV --> CSV["results/ CSV<br/>every answer saved, failures logged,<br/>reruns skip finished rows"]
+    CLAUDE --> CSV
+
+    CSV --> SCORE["Scorecard on test<br/>accuracy, precision, recall,<br/>speed, cost per month"]
+    CSV --> C1["Check 1: messy inputs<br/>does accuracy hold up?"]
+    CSV --> C2["Check 2: stability<br/>same answer all 3 runs?"]
+    CSV --> C3["Check 3: human review<br/>cutoff picked on dev,<br/>tested on test + messy"]
+    CSV --> DIS["Where the models disagree<br/>who got it right"]
+    SCORE --> TAKE["Takeaways<br/>generated from the numbers"]
+    C1 --> TAKE
+    C2 --> TAKE
+    C3 --> TAKE
+    DIS --> TAKE
 ```
 
 Results are cached in `results/`, so rerunning the notebook only calls the APIs for rows that are missing or failed. All tables and charts are built from the saved results, so they can be regenerated without any API calls.
